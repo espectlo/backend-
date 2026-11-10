@@ -30,7 +30,8 @@ Edita `.env` y define una `SECRET_KEY` privada (puedes generarla con `python -c 
 ```bash
 python manage.py migrate
 python manage.py importar_json
-python manage.py createsuperuser
+python manage.py configurar_roles
+python manage.py changepassword admin
 ```
 
 `importar_json` puede ejecutarse nuevamente sin duplicar insumos, herramientas ni el historial de solicitudes. El archivo `.env` y la base SQLite local no deben publicarse.
@@ -50,30 +51,15 @@ Abre tu navegador web y ve a:
 http://localhost:8000/
 ```
 
-El administrador está disponible en `http://localhost:8000/admin/`. Inicia sesión con el superusuario creado anteriormente.
+El administrador está disponible en `http://localhost:8000/admin/`. Inicia sesión con el usuario `admin` y la contraseña que configuraste en el paso anterior.
 
-### Cuentas de prueba
+### Cuentas y permisos
 
-| Cuenta | Usuario | Contraseña |
-|---|---|---|
-| Prueba 1 | `prueba1` | `123456` |
-| Prueba 2 | `prueba2` |`  123456789 ` |
-| Administrador | `admin` | ` 3410m2912` |
+El repositorio no incluye cuentas ni contraseñas de prueba. `configurar_roles` crea el usuario `admin` sin una contraseña utilizable; el comando `changepassword` del paso anterior permite asignarle una de forma interactiva, sin guardarla en el repositorio ni en el historial de comandos.
 
-`prueba1 / 123456` es una credencial débil y debe usarse solo en una base local de pruebas; crea la cuenta `prueba1` si aún no existe. Las contraseñas actuales de `prueba2` y `admin` no se pueden recuperar desde Django ni se guardan en este README. Asígnalas o cámbialas de forma interactiva, sin poner la clave en el historial de comandos:
+Para probar la aplicación, inicia sesión en `/admin/` con `admin` y crea allí los usuarios necesarios. Asigna el grupo `Auxiliares` a quienes deban consultar el inventario y crear solicitudes. `configurar_roles` crea ese grupo, configura los permisos, asigna el grupo a los usuarios no administradores que ya existan y crea `admin` si hace falta; puedes volver a ejecutarlo después de crear usuarios para asignarles el grupo automáticamente. También importa el historial de `accesos.json` si ese archivo existe localmente. El comando es repetible. Auxiliares no puede editar stock ni consultar las solicitudes globales; solo el administrador ve y gestiona solicitudes.
 
-```bash
-python manage.py changepassword prueba2
-python manage.py changepassword admin
-```
-
-No reutilices estas cuentas ni contraseñas en producción.
-
-### Permisos, roles y auditoría
-
-Ejecuta `python manage.py configurar_roles` para crear el grupo `Auxiliares`, asignar a los usuarios existentes permisos de consulta de stock y creación de solicitudes, crear el superusuario `admin` e importar el historial de `accesos.json`. El comando es repetible. Auxiliares no puede editar stock ni consultar las solicitudes globales; solo el administrador ve y gestiona solicitudes.
-
-Por seguridad, `admin` se crea sin contraseña utilizable. Configúrala localmente con `python manage.py changepassword admin`; no se almacena ni distribuye una clave compartida. El admin permite revisar el registro de auditoría, que guarda hora, usuario, IP, consultas de stock, login/logout, intentos fallidos, pedidos y cambios con valores anteriores/nuevos. `RegistroAuditoria` y el registro nativo de acciones de Django son de solo lectura para revisar quién modificó objetos, cuentas y grupos.
+El administrador permite revisar el registro de auditoría, que guarda hora, usuario, IP, consultas de stock, login/logout, intentos fallidos, pedidos y cambios con valores anteriores/nuevos. `RegistroAuditoria` y el registro nativo de acciones de Django son de solo lectura para revisar quién modificó objetos, cuentas y grupos.
 
 ### Verificación
 
@@ -252,5 +238,4 @@ La aplicación cuenta con una interfaz moderna y responsive:
 ## Evidencia de apoyo con IA
 
 El archivo `ia.md` documenta las orientaciones de GitHub Copilot utilizadas y el contraste realizado con el código, las validaciones de Django y las pruebas automatizadas. Se ajustaron las sugerencias para proteger el cierre de sesión con POST, verificar permisos por modelo y evitar confiar en el nombre de insumo enviado por el navegador.
-
 
