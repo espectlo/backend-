@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Herramientas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f4c2f 0%, #1a6b4f 50%, #0f4c2f 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .header-content h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .header-content p {
+            font-size: 1.05em;
+            opacity: 0.9;
+        }
+
+        .header-user {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 15px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-info p {
+            opacity: 0.9;
+        }
+
+        .user-info .username {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn, .back-btn {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.3) 0%, rgba(74, 222, 128, 0.1) 100%);
+            border: 2px solid rgba(74, 222, 128, 0.6);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-btn:hover, .back-btn:hover {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.5) 0%, rgba(74, 222, 128, 0.3) 100%);
+            border-color: rgba(74, 222, 128, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 222, 128, 0.3);
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(239, 68, 68, 0.1) 100%);
+            border: 2px solid rgba(239, 68, 68, 0.6);
+            color: white;
+        }
+
+        .logout-btn:hover {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.5) 0%, rgba(239, 68, 68, 0.3) 100%);
+            border-color: rgba(239, 68, 68, 1);
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #0f4c2f;
+            font-size: 2em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #4ade80;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-table {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.95em;
+        }
+
+        table thead {
+            background: linear-gradient(135deg, #0f4c2f 0%, #1a6b4f 100%);
+        }
+
+        table thead th {
+            padding: 16px;
+            text-align: left;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.85em;
+            border: none;
+        }
+
+        table tbody tr {
+            border-bottom: 1px solid #e0e0e0;
+            transition: background-color 0.2s ease;
+        }
+
+        table tbody tr:hover {
+            background-color: #f0f9f6;
+        }
+
+        table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        table tbody td {
+            padding: 14px 16px;
+            color: #333;
+        }
+
+        table tbody td:first-child {
+            font-weight: 600;
+            color: #0f4c2f;
+        }
+
+        .table-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .table-badge.disponible {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .table-badge.mantenimiento {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .table-badge.danada {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .table-badge.si {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .table-badge.no {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 1.1em;
+        }
+
+        .back-to-dashboard {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .header-user {
+                align-items: center;
+            }
+
+            .header-content h1 {
+                font-size: 1.8em;
+            }
+
+            .section-title {
+                font-size: 1.5em;
+            }
+
+            .section-table {
+                font-size: 0.8em;
+            }
+
+            table thead th {
+                padding: 10px;
+            }
+
+            table tbody td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="header-content">
+                <h1>🔧 Gestión de Herramientas</h1>
+                <p>Administra todas las herramientas disponibles del taller</p>
+            </div>
+            <div class="header-user">
+                <div class="user-info">
+                    <span>Sesión iniciada como:</span>
+                    <p class="username">{{ user.username }}</p>
+                </div>
+                <div class="nav-buttons">
+                    <a href="{% url 'dashboard' %}" class="back-btn">🏠 Volver al Dashboard</a>
+                    <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="logout-btn" type="submit">🚪 Cerrar Sesión</button></form>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN HERRAMIENTAS -->
+        <div class="section">
+            <h2 class="section-title">🛠️ Lista de Herramientas</h2>
+            {% if perms.inventario.add_herramienta %}<p><a href="{% url 'herramienta_nueva' %}">Añadir herramienta</a></p>{% endif %}
+            {% if messages %}{% for message in messages %}<p class="message {{ message.tags }}">{{ message }}</p>{% endfor %}{% endif %}
+            
+            {% if herramientas %}
+            <div class="section-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            <th>Puede Utilizarse</th>
+                            {% if perms.inventario.change_herramienta or perms.inventario.delete_herramienta %}<th>Administrar</th>{% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for herramienta in herramientas %}
+                        <tr>
+                            <td>{{ herramienta.nombre }}</td>
+                            <td>{{ herramienta.descripcion }}</td>
+                            <td>
+                                {% if herramienta.estado == "Disponible" %}
+                                    <span class="table-badge disponible">{{ herramienta.estado }}</span>
+                                {% elif herramienta.estado == "En mantenimiento" %}
+                                    <span class="table-badge mantenimiento">{{ herramienta.estado }}</span>
+                                {% elif herramienta.estado == "Dañada" %}
+                                    <span class="table-badge danada">{{ herramienta.estado }}</span>
+                                {% else %}
+                                    <span class="table-badge">{{ herramienta.estado }}</span>
+                                {% endif %}
+                            </td>
+                            {% if perms.inventario.change_herramienta or perms.inventario.delete_herramienta %}
+                            <td>
+                                {% if perms.inventario.change_herramienta %}<a href="{% url 'herramienta_editar' herramienta.pk %}">Editar</a>{% endif %}
+                                {% if perms.inventario.delete_herramienta %}<a href="{% url 'herramienta_eliminar' herramienta.pk %}">Eliminar</a>{% endif %}
+                            </td>
+                            {% endif %}
+                            <td>
+                                {% if herramienta.puede_usarse %}
+                                    <span class="table-badge si">✓ Sí</span>
+                                {% else %}
+                                    <span class="table-badge no">✗ No</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="no-data">
+                ℹ️ No hay herramientas registradas en el sistema
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

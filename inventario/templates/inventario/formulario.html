@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar registro | Inventario</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f2f5f3; color: #24342c; margin: 0; padding: 32px 16px; }
+        main { max-width: 640px; margin: 0 auto; background: white; border-top: 5px solid #1a6b4f; padding: 28px; }
+        h1 { margin-top: 0; color: #0f4c2f; }
+        form p { display: grid; gap: 7px; margin: 18px 0; }
+        input, select, textarea { font: inherit; padding: 10px; border: 1px solid #aab8af; border-radius: 4px; }
+        button, a { display: inline-block; padding: 10px 15px; border: 0; border-radius: 4px; font: inherit; text-decoration: none; cursor: pointer; }
+        button { background: #0f4c2f; color: white; }
+        a { color: #0f4c2f; }
+        .errorlist { color: #a32121; }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Gestionar registro</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Guardar</button>
+            <a href="{% url cancel_url %}">Cancelar</a>
+        </form>
+    </main>
+</body>
+</html>

@@ -1,0 +1,126 @@
+{
+    "insumos": [
+        {
+            "id": 1,
+            "nombre": "Guantes",
+            "cantidad": 50,
+            "stock_minimo": 10
+        },
+        {
+            "id": 2,
+            "nombre": "Mascarillas",
+            "cantidad": 5,
+            "stock_minimo": 10
+        },
+        {
+            "id": 3,
+            "nombre": "Desinfectante",
+            "cantidad": 0,
+            "stock_minimo": 5
+        },
+        {
+            "id": 4,
+            "nombre": "Tornillos (Caja)",
+            "cantidad": 150,
+            "stock_minimo": 50
+        },
+        {
+            "id": 5,
+            "nombre": "Tuercas",
+            "cantidad": 8,
+            "stock_minimo": 20
+        },
+        {
+            "id": 6,
+            "nombre": "Lubricante Industrial",
+            "cantidad": 12,
+            "stock_minimo": 5
+        },
+        {
+            "id": 7,
+            "nombre": "Cinta Adhesiva",
+            "cantidad": 25,
+            "stock_minimo": 10
+        },
+        {
+            "id": 8,
+            "nombre": "Lijas",
+            "cantidad": 30,
+            "stock_minimo": 15
+        },
+        {
+            "id": 9,
+            "nombre": "Soldadura",
+            "cantidad": 3,
+            "stock_minimo": 5
+        },
+        {
+            "id": 10,
+            "nombre": "Cable Eléctrico",
+            "cantidad": 45,
+            "stock_minimo": 20
+        }
+    ],
+    "herramientas": [
+        {
+            "id": 1,
+            "nombre": "Taladro",
+            "estado": "Disponible",
+            "tratamiento": "Mantención preventiva"
+        },
+        {
+            "id": 2,
+            "nombre": "Martillo",
+            "estado": "En mantenimiento",
+            "tratamiento": "Cambio de mango"
+        },
+        {
+            "id": 3,
+            "nombre": "Destornillador",
+            "estado": "Dañada",
+            "tratamiento": "Requiere reparación"
+        },
+        {
+            "id": 4,
+            "nombre": "Sierra Circular",
+            "estado": "Disponible",
+            "tratamiento": "Afilado de disco"
+        },
+        {
+            "id": 5,
+            "nombre": "Soldadora",
+            "estado": "Disponible",
+            "tratamiento": "Calibración mensual"
+        },
+        {
+            "id": 6,
+            "nombre": "Amoladora",
+            "estado": "En mantenimiento",
+            "tratamiento": "Reparación de motor"
+        },
+        {
+            "id": 7,
+            "nombre": "Llave Inglesa",
+            "estado": "Disponible",
+            "tratamiento": "Limpieza"
+        },
+        {
+            "id": 8,
+            "nombre": "Alicate de Precisión",
+            "estado": "Dañada",
+            "tratamiento": "Reemplazo de puntas"
+        },
+        {
+            "id": 9,
+            "nombre": "Nivel Láser",
+            "estado": "Disponible",
+            "tratamiento": "Verificación de calibración"
+        },
+        {
+            "id": 10,
+            "nombre": "Compresor de Aire",
+            "estado": "Disponible",
+            "tratamiento": "Revisión de presión"
+        }
+    ]
+}

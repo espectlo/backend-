@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar eliminación | Inventario</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f2f5f3; color: #24342c; margin: 0; padding: 32px 16px; }
+        main { max-width: 560px; margin: 0 auto; background: white; border-top: 5px solid #a32121; padding: 28px; }
+        h1 { color: #8a1c1c; }
+        button, a { display: inline-block; padding: 10px 15px; border: 0; border-radius: 4px; font: inherit; text-decoration: none; cursor: pointer; }
+        button { background: #a32121; color: white; }
+        a { color: #0f4c2f; }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Confirmar eliminación</h1>
+        <p>¿Deseas eliminar <strong>{{ objeto }}</strong>? Esta acción no se puede deshacer.</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Eliminar</button>
+            <a href="{% url cancel_url %}">Cancelar</a>
+        </form>
+    </main>
+</body>
+</html>

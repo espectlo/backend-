@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GESTOR DE TALLER - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f4c2f 0%, #1a6b4f 50%, #0f4c2f 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Patrón de fondo */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.05) 35px, rgba(255,255,255,.05) 70px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .calendar-icon {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .calendar-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+        }
+
+        .gear-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .title h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .user-info {
+            color: white;
+            text-align: right;
+        }
+
+        .user-info p {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+
+        .user-info .username {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        /* Grid de opciones */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .option-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
+            border: 2px solid rgba(74, 222, 128, 0.5);
+            border-radius: 16px;
+            padding: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            backdrop-filter: blur(10px);
+            min-height: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(74, 222, 128, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .option-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(74, 222, 128, 1);
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(74, 222, 128, 0.2);
+        }
+
+        .option-card:hover::before {
+            top: -30%;
+            right: -30%;
+        }
+
+        .option-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .option-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 0.5px;
+        }
+
+        .option-description {
+            font-size: 0.85em;
+            opacity: 0.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Footer con botón salir */
+        .footer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .dashboard-auxiliar .container {
+            min-height: calc(100vh - 40px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dashboard-auxiliar .options-grid {
+            grid-auto-rows: minmax(320px, 1fr);
+            flex: 1;
+            align-content: stretch;
+            margin-bottom: 0;
+        }
+
+        .dashboard-auxiliar .option-card {
+            min-height: 320px;
+        }
+
+        .dashboard-auxiliar .footer {
+            margin-top: 24px;
+        }
+
+        .exit-btn {
+            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
+            border: 2px solid rgba(239, 68, 68, 0.6);
+            border-radius: 12px;
+            padding: 15px 30px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-size: 1em;
+            backdrop-filter: blur(10px);
+        }
+
+        .exit-btn:hover {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(239, 68, 68, 0.1) 100%);
+            border-color: rgba(239, 68, 68, 1);
+            box-shadow: 0 10px 20px rgba(239, 68, 68, 0.2);
+            transform: scale(1.05);
+        }
+
+        .exit-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .header-left {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .title h1 {
+                font-size: 1.8em;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .user-info {
+                text-align: center;
+            }
+
+            .footer {
+                justify-content: center;
+            }
+        }
+
+        /* Animación de carga */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .option-card {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .option-card:nth-child(1) { animation-delay: 0.1s; }
+        .option-card:nth-child(2) { animation-delay: 0.2s; }
+        .option-card:nth-child(3) { animation-delay: 0.3s; }
+        .option-card:nth-child(4) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body class="{% if es_auxiliar %}dashboard-auxiliar{% endif %}">
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <div class="calendar-icon">
+                    📅 {{ current_date }}
+                </div>
+                <div class="title">
+                    <div class="gear-icon">⚙️</div>
+                    <h1>GESTOR DE TALLER</h1>
+                </div>
+            </div>
+            <div class="user-info">
+                <p>Sesión iniciada como:</p>
+                <p class="username">{{ user.username }}</p>
+                {% if user.is_staff %}<a href="{% url 'admin:index' %}">Administración</a>{% endif %}
+            </div>
+        </div>
+
+        <!-- Grid de opciones -->
+        <div class="options-grid">
+            <!-- Consulta de Insumos -->
+            <a href="{% url 'vista_insumos' %}" class="option-card">
+                <div class="option-icon">📦</div>
+                <div class="option-title">Consultar<br>Insumos</div>
+                <div class="option-description">Revisar existencias y solicitar materiales</div>
+            </a>
+
+            <!-- Consulta de Herramientas -->
+            <a href="{% url 'vista_herramientas' %}" class="option-card">
+                <div class="option-icon">🔧</div>
+                <div class="option-title">Consultar<br>Herramientas</div>
+                <div class="option-description">Revisar estado y disponibilidad</div>
+            </a>
+
+            <!-- Mantenimiento de Maquinaria -->
+            <a href="{% url 'vista_herramientas' %}" class="option-card">
+                <div class="option-icon">🚜</div>
+                <div class="option-title">Mantenimiento de<br>Maquinaria</div>
+                <div class="option-description">Registrar mantenimiento de equipos</div>
+            </a>
+
+            {% if perms.inventario.view_solicitud %}
+            <a href="{% url 'ver_solicitudes' %}" class="option-card">
+                <div class="option-icon">📋</div>
+                <div class="option-title">Solicitud e Compra<br>de Inventario</div>
+                <div class="option-description">Ver y gestionar solicitudes de compra</div>
+            </a>
+            {% endif %}
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="exit-btn" type="submit"><span>🚪</span> Salir</button></form>
+        </div>
+    </div>
+</body>
+</html>
