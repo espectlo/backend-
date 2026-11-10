@@ -81,8 +81,6 @@ class SolicitudViewSet(AuditedModelViewSet):
             return SolicitudDecisionSerializer
         return super().get_serializer_class()
 
-        super().perform_update(serializer)
-
     @action(detail=True, methods=('post',), permission_classes=(SolicitudAPIPermission,))
     def resolver(self, request, pk=None):
         solicitud = self.get_object()
